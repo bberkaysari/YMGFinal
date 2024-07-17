@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/bberkaysari/YMGFinal.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                // Örneğin, Maven kullanıyorsanız
+                sh 'mvn clean install'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Örneğin, JUnit testlerini çalıştırmak için
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                // Deploy işlemleri burada tanımlanır
+                echo 'Deploying...'
+            }
+        }
+    }
+    post {
+        always {
+            // Sonrasında yapılacak işlemler
+            echo 'Pipeline tamamlandı'
+        }
+        success {
+            // Başarılı olduğunda yapılacak işlemler
+            echo 'Pipeline başarıyla tamamlandı'
+        }
+        failure {
+            // Başarısız olduğunda yapılacak işlemler
+            echo 'Pipeline başarısız oldu'
+        }
+    }
+}
